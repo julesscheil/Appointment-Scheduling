@@ -1,6 +1,6 @@
 // Component for timeslots
 
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 // Inserting hours into cards & modal on click
@@ -19,6 +19,7 @@ function Timeslots() {
 //  no cross user data is maintained, assumption is one user
 const [userName, setUserName] = useState("");
 const [phoneNumber, setPhoneNumber] = useState("");
+const [phoneError, setPhoneError] =useState(null);
 
 function selectedAppointment() {
     document.getElementById("selected").style.background="red";
@@ -26,6 +27,28 @@ function selectedAppointment() {
 
 const handleSubmit=e=> {
     e.preventDefault();
+}
+
+const firstRender =useRef(true)
+const [disabled, setDisabled] =useState(true);
+
+useEffect(() => {
+if(firstRender.current) {
+    firstRender.current=false;
+    return
+}
+
+setDisabled(formValidate() ) 
+},[phoneNumber])
+
+    const formValidate=()=>{
+        var numbers = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    if(!phoneNumber || !numbers.test(phoneNumber) ) {
+        setPhoneError("Please provide a valid phone number");
+        return true;
+    } else 
+    setPhoneError(null);
+    return false;
 }
 
 
@@ -47,7 +70,9 @@ const handleSubmit=e=> {
   return (
     <div className="container-fluid">
         {/* return hour data */}
+        <div  >
       {hourCards}
+      </div>
       {/* modal form starts here */}
       <Modal
           show={showModal}
@@ -55,7 +80,7 @@ const handleSubmit=e=> {
           backdrop="static"
           keyboard={false}
         >
-          <Modal.Header>
+          <Modal.Header closeButton>
             <Modal.Title>Please input your information here</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -67,8 +92,9 @@ const handleSubmit=e=> {
               <Form.Group>
                 <Form.Label>Phone Number</Form.Label>
                 <Form.Control type="tel" value={phoneNumber} placeholder="(xxx)-xxx-xxxx" onChange={e => setPhoneNumber(e.target.value)} />
+                { phoneError && <p>{phoneError}</p>}
               </Form.Group>
-              <Button variant="primary" onClick={handleCloseModal} type="submit">
+              <Button variant="primary" onClick={handleCloseModal} type="submit" disabled={disabled}>
               Save Changes
             </Button>
             </Form>
