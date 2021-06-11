@@ -1,17 +1,16 @@
 // Component for timeslots
 
 import React from 'react';
-import Card from 'react-bootstrap/Card';
-
-
+import Button from 'react-bootstrap/Button';
 
 // Inserting data & time cards
 function Timeslots() {
 
     const hours=[9,10,11,12,1,2,3,4]
     const hourValue=[];
+    // loops creates values of time slot buttons
     for(const value of hours) {
-        hourValue.push(<Card><Card.Body>{value}-{value+1}</Card.Body></Card>)
+        hourValue.push(<Button size="lg" block>{value}-{value+1}</ Button>)
     }
 
 return (
