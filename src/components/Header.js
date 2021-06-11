@@ -6,7 +6,8 @@ import React from 'react';
 function Header() {
 return (
     <div className="Container">
-        <h1> Hello Header </h1>
+        <h1>Schedule Your Appointments Here! </h1>
+        <p>Please choose a time and add your contact information</p>
     </div>
 )
 
