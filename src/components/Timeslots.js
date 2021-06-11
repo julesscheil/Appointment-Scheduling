@@ -7,20 +7,25 @@ import { Button, Form, Modal } from "react-bootstrap";
 function Timeslots() {
 
  // modal show hide states
-//  no cross user data is maintained, assumption is one user
+
  const [showModal, setShowModal] = useState(false);
- const handleCloseModal = () => setShowModal(false);
+ const handleCloseModal = () => {
+     setShowModal(false);
+    selectedAppointment();
+    }
  const handleShowModal = () => setShowModal(true);
 
 // state for name & phone number
-const [userName, setUserName] = useState();
-const [phoneNumber, setPhoneNumber] = useState();
+//  no cross user data is maintained, assumption is one user
+const [userName, setUserName] = useState("");
+const [phoneNumber, setPhoneNumber] = useState("");
+
+function selectedAppointment() {
+    document.getElementById("selected").style.background="red";
+}
 
 const handleSubmit=e=> {
     e.preventDefault();
-    console.log("user " +userName);
-    console.log("number " +phoneNumber);
-
 }
 
 
@@ -31,7 +36,7 @@ const handleSubmit=e=> {
   for (const value of hours) {
     hourCards.push(
       <div>
-        <Button size="lg" block onClick={handleShowModal}>
+        <Button id="selected" variant="light" size="lg" block onClick={handleShowModal}>
           {value}-{value + 1}
         </Button>
         <Modal
@@ -40,18 +45,18 @@ const handleSubmit=e=> {
           backdrop="static"
           keyboard={false}
         >
-          <Modal.Header closebutton>
+          <Modal.Header>
             <Modal.Title>Please input your information here</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={handleSubmit}>
               <Form.Group>
                 <Form.Label>Full Name</Form.Label>
-                <Form.Control type="text" placeholder="type your name here" onChange={e => setUserName(e.target.value)} />
+                <Form.Control type="text" value={userName} placeholder="type your name here" onChange={e => setUserName(e.target.value)} />
               </Form.Group>
               <Form.Group>
                 <Form.Label>Phone Number</Form.Label>
-                <Form.Control type="tel" placeholder="(xxx)-xxx-xxxx" onChange={e => setPhoneNumber(e.target.value)} />
+                <Form.Control type="tel" value={phoneNumber} placeholder="(xxx)-xxx-xxxx" onChange={e => setPhoneNumber(e.target.value)} />
               </Form.Group>
               <Button variant="primary" onClick={handleCloseModal} type="submit">
               Save Changes
