@@ -36,10 +36,20 @@ const handleSubmit=e=> {
   for (const value of hours) {
     hourCards.push(
       <div>
-        <Button id="selected" variant="light" size="lg" block onClick={handleShowModal}>
+        <Button id="selected" variant="outline-success" style={{color:"black"}} size="lg" block onClick={handleShowModal}>
           {value}-{value + 1}
         </Button>
-        <Modal
+        
+      </div>
+    );
+  }
+
+  return (
+    <div className="container-fluid">
+        {/* return hour data */}
+      {hourCards}
+      {/* modal form starts here */}
+      <Modal
           show={showModal}
           onHide={handleCloseModal}
           backdrop="static"
@@ -67,14 +77,6 @@ const handleSubmit=e=> {
             
           </Modal.Footer>
         </Modal>
-      </div>
-    );
-  }
-
-  return (
-    <div className="container">
-      <h2>times available</h2>
-      {hourCards}
     </div>
   );
 }
